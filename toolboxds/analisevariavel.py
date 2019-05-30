@@ -1,3 +1,14 @@
+import pandas as pd
+import numpy as np
+import scipy as sp
+import plotly.plotly as py
+from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
+import plotly.plotly as py
+import plotly.graph_objs as go
+import matplotlib.pyplot as plt
+init_notebook_mode(connected=True)
+
+
 def prepara_base_agrupada(df, var, by_var, chave='chave'):
 
     a = df.groupby([var, by_var], as_index=False).agg({chave: np.size})
@@ -9,11 +20,14 @@ def prepara_base_agrupada(df, var, by_var, chave='chave'):
     return a.loc[:, [by_var, var, '%']]
 
 
-def plotly_stackedbar(df_, var, by_var=None, title='', X_label=None, fl_geral=True):
+def plotly_stackedbar(df_, var, by_var=None, title='', X_label=None, fl_geral=False):
 
     W = .25
     D = .25
-    df_aux = df_.loc[:, [var, by_var]].copy()
+    if by_var is not None:
+        df_aux = df_.loc[:, [var, by_var]].copy()
+    else:
+        df_aux = df_.loc[:, [var]].copy()
 
     if by_var is None:
         by_var = var + '_'
@@ -76,7 +90,7 @@ def plotly_stackedbar(df_, var, by_var=None, title='', X_label=None, fl_geral=Tr
     iplot(fig, filename='stacked-bar')
 
 
-def plotly_boxplot(df_, var, by_var=None, title='', X_label=None, prefixo='', fl_geral=True):
+def plotly_boxplot(df_, var, by_var=None, title='', X_label=None, prefixo='', fl_geral=False):
 
     W = .25
     D = .7
@@ -131,7 +145,7 @@ def plotly_boxplot(df_, var, by_var=None, title='', X_label=None, prefixo='', fl
     iplot(fig, filename='stacked-bar')
 
 
-def describe_agrupado(df_, var, by_var, prefixo='', fl_geral=True):
+def describe_agrupado(df_, var, by_var, fl_geral=False, prefixo=''):
 
     df = df_.copy()
     if by_var is None:
@@ -216,7 +230,7 @@ def plotly_hist(df, col):
     iplot(fig, filename='basic histogram')
 
 
-def analise_univariada_num(df, var, by_var):
+def analise_univariada_num(df, var, by_var, fl_geral=False):
 
     print('------------------------------------------------------------------------------------------------------------')
     print('\t\t\t\t\t    Análise univariada')
@@ -246,11 +260,11 @@ def analise_univariada_num(df, var, by_var):
     if by_var is not None:
         print('\n')
         print('Análise da variável {} quebrada por {}'.format(var, by_var))
-        describe_agrupado(df, var, by_var, prefixo='Intensidade :')
-        plotly_boxplot(df, var, by_var, prefixo='Intensidade:\n')
+        describe_agrupado(df, var, by_var, prefixo='Intensidade :', fl_geral=fl_geral)
+        plotly_boxplot(df, var, by_var, prefixo='Intensidade:\n', fl_geral=fl_geral)
 
 
-def analise_univariada_cat(df, var, by_var):
+def analise_univariada_cat(df, var, by_var, fl_geral=False):
 
     print('------------------------------------------------------------------------------------------------------------')
     print('\t\t\t\t\t    Análise univariada')
@@ -268,8 +282,8 @@ def analise_univariada_cat(df, var, by_var):
     plotly_stackedbar(df, var, fl_geral=False)
     if by_var is not None:
         print('\n')
-        print('Análise da variável {} quebrada por {}'.format(var, by_var))
-        plotly_stackedbar(df, var, by_var)
+        print('Análise da variável {} quebrada por {}'.format(var, by_var, fl_geral=fl_geral))
+        plotly_stackedbar(df, var, by_var, fl_geral=fl_geral)
 
 
 def analise_cat_1(df, var, y, label='', fl_ordena=0, num=False, q=0, q2=0):
