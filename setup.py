@@ -2,10 +2,11 @@ from setuptools import setup
 
 setup(name='toolboxds',
       version='0.1',
-      description='The funniest joke in the world',
-      url='http://github.com/storborg/funniest',
-      author='Flying Circus',
-      author_email='flyingcircus@example.com',
+      description='Tool box para cientista de dados',
+      url='https://github.com/lourencoerick/toolboxds',
+      author='Erick Lourenco',
+      author_email='lourenco.erick@gmail.com',
       license='MIT',
       packages=['toolboxds'],
+      install_requires=['markdown', 'plotly', 'numpy', 'pandas', 'scipy', 'sklearn'],
       zip_safe=False)
