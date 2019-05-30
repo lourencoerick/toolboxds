@@ -3,7 +3,6 @@ import numpy as np
 import scipy as sp
 import plotly.plotly as py
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
-import plotly.plotly as py
 import plotly.graph_objs as go
 import matplotlib.pyplot as plt
 init_notebook_mode(connected=True)
@@ -49,7 +48,7 @@ def plotly_stackedbar(df_, var, by_var=None, title='', X_label=None, fl_geral=Fa
     df_aux['chave'] = 1
     df = prepara_base_agrupada(df_aux, var, by_var, 'chave')
     df_pivot = df.rename(columns={by_var: by_var.split(' ')[0]}).pivot_table(
-        index='COR', columns=by_var.split(' ')[0]).fillna(0)
+        index=var, columns=by_var.split(' ')[0]).fillna(0)
     display(df_pivot.loc[:, sorted(df_pivot.columns, key=lambda x:str(x))])  # [ str(col) for col in
     x_axis = by_var
     y_axis = var
