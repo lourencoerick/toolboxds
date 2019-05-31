@@ -447,14 +447,14 @@ def plotly_analise_cat_1(df, var, y, label='', fl_ordena=0, num=False, q=0, q2=0
     trace2 = go.Scatter(
         x=index,
         y=Y2,
-        name='tx. média evento',
+        name='tx. evento',
         yaxis='y2'
     )
 
     trace3 = go.Scatter(
         x=index,
         y=Y_mean,
-        name='tx. evento',
+        name='tx. média evento',
         yaxis='y2'
     )
     data = [trace1, trace2, trace3]
