@@ -19,6 +19,23 @@ def prepara_base_agrupada(df, var, by_var, chave='chave'):
     return a.loc[:, [by_var, var, '%']]
 
 
+def plotly_stackedbar_bylist(df_, var, by_var=None, title='', X_label=None, fl_geral=False):
+    if by_var is None:
+        by_var_ = None
+    else:
+        assert isinstance(by_var, list)
+        if len(by_var) == 1:
+            by_var_ = by_var[0]
+        else:
+            by_var_ = 'index'
+            df_[by_var_] = df_[by_var[0]].astype(str)
+            for var_ in by_var[1:]:
+                if var_ != '':
+                    df_[by_var_] += ('\n' + df_[var_].astype(str))
+
+    plotly_stackedbar(df_, var, by_var=by_var_, title=title, X_label=X_label, fl_geral=fl_geral)
+
+
 def plotly_stackedbar(df_, var, by_var=None, title='', X_label=None, fl_geral=False):
 
     W = .25
